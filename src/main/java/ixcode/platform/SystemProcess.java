@@ -1,0 +1,56 @@
+package ixcode.platform;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.lang.management.ManagementFactory;
+
+import static ixcode.platform.IoStreamHandling.closeQuietly;
+import static java.lang.String.format;
+
+public class SystemProcess {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SystemProcess.class);
+
+
+    public SystemProcess() {
+    }
+
+    public void writeProcessIdToFile(String filename) {
+        FileOutputStream out = null;
+        try {
+            File processIdFile = new File(System.getProperty("user.home"), filename);
+            if (processIdFile.exists()) {
+                processIdFile.delete();
+            }
+            processIdFile.deleteOnExit();
+            processIdFile.createNewFile();
+
+            out = new FileOutputStream(processIdFile);
+
+            String processName = ManagementFactory.getRuntimeMXBean().getName();
+            if (!processName.contains("@")) {
+                throw new RuntimeException(format("Process name [%s] is not parsable for the processId!", processName));
+            }
+
+            String[] parts = processName.split("@");
+            String processId = parts[0];
+            String hostName = parts[1];
+
+            PrintWriter writer = new PrintWriter(new OutputStreamWriter(out));
+            writer.println(processId);
+            writer.flush();
+            LOG.info(format("Writing PID file for process with PID [%s] on [%s] (file is at [%s])", processId, hostName, processIdFile.getAbsolutePath()));
+
+        } catch (Exception e) {
+            throw new RuntimeException(format("Could not write process Id file [~/%s]", filename), e);
+        } finally {
+            closeQuietly(out);
+        }
+    }
+
+}
