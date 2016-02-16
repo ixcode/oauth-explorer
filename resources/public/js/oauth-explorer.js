@@ -11,11 +11,6 @@ function hideElement(id) {
 
 function toggleControlsBasedOnFlow(flow) {
     console.log("Clicked! " + flow);
-    if ("4-1" === flow) {
-        showElement("access-token-url");
-    } else {
-      hideElement("access-token-url");
-    }
 
     if ("4-3" === flow) {
         showElement("resource-owner-creds");
