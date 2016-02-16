@@ -14,6 +14,14 @@ public class LogbackConfiguration {
 
     public static final String STANDARD_OPS_FORMAT = "[%date{yyyy-mm-dd'T'hh:MM:ss.SSSZZ (z)]} %-6level %-35logger{35} - %message%n";
 
+    public static void initialiseConsoleLogging() {
+        initialiseConsoleLogging(Level.INFO);
+    }
+
+    public static void initialiseConsoleLogging(Level level) {
+        initialiseConsoleLogging(level, STANDARD_OPS_FORMAT);
+    }
+
     public static void initialiseConsoleLogging(Level level, String pattern) {
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
         ch.qos.logback.classic.Logger root = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger(ch.qos.logback.classic.Logger.ROOT_LOGGER_NAME);
