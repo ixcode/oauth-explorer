@@ -109,16 +109,13 @@ public class HttpServer {
     private Handler handler() {
         HandlerList handlerList = new HandlerList();
 
-        Handler[] handlers = (sassRoot != null)
-                ? new Handler[]{redirectionHandler(), resourceHandler(), servletHandler()}
-                : new Handler[]{redirectionHandler(), resourceHandler(), servletHandler()};
+        Handler[] handlers = new Handler[]{
+                redirectionHandler(),
+                resourceHandler(),
+                servletHandler()};
 
         handlerList.setHandlers(handlers);
 
-        if (securityCloak != null) {
-            securityCloak.setHandler(handlerList);
-            return securityCloak;
-        }
 
         return handlerList;
     }
@@ -151,76 +148,12 @@ public class HttpServer {
         return servletContextHandler;
     }
 
-    private static ConstraintMapping mapConstraintTo(Constraint constraint, String path) {
-        ConstraintMapping cm = new ConstraintMapping();
-        cm.setPathSpec(path);
-        cm.setConstraint(constraint);
-        return cm;
-    }
-
 
     public HttpServer withRedirection(Redirection redirection) {
         this.redirections.add(redirection);
         return this;
     }
 
-
-    /**
-     * We are not even going to think about basic auth, although you could see how to do it.
-     * <p/>
-     * At least digest encrypts the password
-     *
-     * @See http://tools.ietf.org/html/rfc2617
-     */
-    public HttpServer cloakWithDigestAuth(String filename) {
-        securityCloak = createFileBasedSecurityCloakHandler(filename, new DigestAuthenticator());
-
-        return this;
-    }
-
-
-    private ConstraintSecurityHandler createFileBasedSecurityCloakHandler(String filename, Authenticator authenticator) {
-
-        File f = getCannonicalFileFor(filename);
-        if (!f.exists()) {
-            return null;
-        }
-        HashLoginService loginService = new HashLoginService(this.serverName, f.getAbsolutePath());
-        try {
-            loginService.loadUsers();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        return createSecurityHandler(authenticator, loginService);
-    }
-
-    private ConstraintSecurityHandler createSecurityHandler(Authenticator authenticator,
-                                                            LoginService loginService) {
-        Constraint constraint = new Constraint();
-        constraint.setName(Constraint.__BASIC_AUTH);
-        constraint.setAuthenticate(true);
-        constraint.setRoles(new String[]{"user"});
-
-
-        ConstraintMapping root = mapConstraintTo(constraint, "/*");
-
-        ConstraintSecurityHandler handler = new ConstraintSecurityHandler();
-        handler.setRealmName(this.serverName);
-        handler.setAuthenticator(authenticator);
-        handler.setConstraintMappings(asList(root));
-        handler.setLoginService(loginService);
-        return handler;
-    }
-
-    private File getCannonicalFileFor(String fileName) {
-        try {
-            return new File(fileName.replace("~", getProperty("user.home")))
-                    .getCanonicalFile();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
 
 }

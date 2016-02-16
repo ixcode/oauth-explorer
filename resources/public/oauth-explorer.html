@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prototype UX</title>
+    <link rel="stylesheet" href="css/oauth-explorer.css"/>
+    <script type="application/javascript" src="js/oauth-explorer.js"></script>
+</head>
+<body>
+
+
+<div id="oauth-provider">
+    <h2>Oauth Provider Details</h2>
+
+    <p>This app uses local storage to store your credentials. A next evolution will be to store them in encrypted secure
+        cookies.</p>
+    <p>You will need to set up your application account to include the url of this page as redirect</p>
+
+</div>
+<div id="activity">
+    <p>Here we can do various things and see what happens</p>
+
+    <form name="authorization">
+        <div id="authorization-flow">
+            <p>Select an Authorisation flow</p>
+            <ul>
+                <li><input id="4-1" type="radio" name="grant-type" value="4-1" checked="true"/><label for="4-1">4.1
+                    Authorisation Code Grant</label>
+                </li>
+                <li><input id="4-2" type="radio" name="grant-type" value="4-2"/><label for="4-2">4.2 Implicit
+                    Authorisation Grant</label></li>
+                <li><input id="4-3" type="radio" name="grant-type" value="4-3"/><label for="4-3">4.3 Resource owner
+                    password credentials Grant</label>
+                </li>
+                <li><input id="4-4" type="radio" name="grant-type" value="4-4"/><label for="4-4">4.3 Client credentials
+                    Grant</label></li>
+            </ul>
+        </div>
+        <div id="client-config">
+            <table>
+                <tr>
+                    <td>Client Id</td>
+                    <td><input id="txtClientId" type="text"/></td>
+                </tr>
+                <tr>
+                    <td>Client Secret</td>
+                    <td><input id="pwdClientSecret" type="text"/></td>
+                </tr>
+            </table>
+
+            <table>
+                <tr>
+                    <td>Authorization URL</td>
+                    <td><input id="txtAuthorizationUrl" type="text"/></td>
+
+                    <td id="access-token-url">Access token URL
+                    <input id="txtAccessTokenUrl" type="text"/></td>
+
+                </tr>
+            </table>
+
+
+            <div id="client-config-buttons">
+                <input type="button" id="save-client-config" value="Save Client Configuration"/>
+                <input type="button" id="clear-client-config" value="Clear Client Configuration"/>
+            </div>
+        </div>
+
+
+        <div id="authorize-button">
+            <div id="resource-owner-creds" class="hidden">
+
+
+                <label for="txtResourceOwnerUsername">Username</label>
+                <input id="txtResourceOwnerUsername"/>
+
+                <label for="pwdResourceOwnerPassword">Password</label>
+                <input id="pwdResourceOwnerPassword"/>
+
+            </div>
+            <input class="button" id="btnAuthorize" type="submit" value="Authorize"/>
+        </div>
+    </form>
+</div>
+
+<div id="results">
+
+</div>
+
+
+</body>
+</html>

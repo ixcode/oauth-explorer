@@ -1,0 +1,61 @@
+.hidden {
+    display: none;
+}
+
+ul {
+    list-style: none;
+    margin:0;
+    padding:0;
+}
+
+li {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+input[type='radio'] {
+    margin-right:10px;
+}
+
+div#client-config,
+div#authorization-flow,
+div#authorize-button  {
+    padding:10px;
+    margin:10px;
+    border: solid lightslategray 2px;
+    width:95%;
+}
+
+div#authorize-button {
+    text-align: right;
+    width:95%;
+}
+
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+
+
+}
+
+div#resource-owner-creds {
+    padding-top:10px;
+    padding-bottom:5px;
+    float:left;
+
+}
+
+input#txtResourceOwnerUsername {
+    margin-right:20px;
+}
+
+
+.button {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
